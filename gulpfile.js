@@ -5,17 +5,10 @@
 'use strict';
 
 var gulp = require('gulp'),
-    path = require('path'),
     gutil = require('gulp-util'),
-    del = require('del'),
-    gulpif = require('gulp-if'),
     plumber = require('gulp-plumber'),
-    concat = require('gulp-concat'),
-    uglify = require('gulp-uglify'),
     jshint = require('gulp-jshint'),
-    mocha = require('gulp-mocha'),
-    map = require('map-stream'),
-    fs = require('vinyl-fs');
+    mocha = require('gulp-mocha');
 
 var errorHandler = function(err) {
     gutil.beep();
@@ -28,23 +21,22 @@ var paths = {
 };
 
 gulp.task('jshint', function() {
-    gulp.src([ paths.src, paths.tests ], { read:false } )
+    return gulp.src([ paths.src, paths.tests ], { read:false } )
         .pipe( plumber({ errorHandler:errorHandler }) )
         .pipe( jshint() )
         .pipe( jshint.reporter('jshint-stylish') );
 });
 
 gulp.task('mocha', function() {
-    gulp.src( paths.tests, { read:false } )
+    return gulp.src( paths.tests, { read:false } )
         .pipe( plumber({ errorHandler:errorHandler }) )
         .pipe( mocha({ reporter:'spec' }) );
 });
 
-gulp.task('test', [ 'mocha', 'jshint' ] );
-
-gulp.task('watch', [ 'test' ], function () {
-    gulp.watch([ paths.src, paths.tests ], [ 'test' ]);
+gulp.task('watch', function () {
+    gulp.watch([paths.src, paths.tests], gulp.series('test'));
 });
 
-gulp.task('default', [ 'test', 'watch' ]);
+gulp.task('test', gulp.series('jshint', 'mocha'));
 
+gulp.task('default', gulp.series( 'test', 'watch' ));
