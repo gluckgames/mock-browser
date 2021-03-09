@@ -8,8 +8,7 @@ var should = require('chai').should(),
     dash = require('lodash' ),
     MockLogger = require('simple-node-logger' ).mocks.MockLogger,
     MockBrowser = require('../lib/MockBrowser'),
-    MockLocation = require('../lib/MockLocation'),
-    MockHTMLMediaElement = require("../lib/MockHTMLMediaElement");
+    MockLocation = require('../lib/MockLocation');
 
 describe('MockBrowser', function() {
     'use strict';
@@ -159,10 +158,10 @@ describe('MockBrowser', function() {
             win.location.should.be.instanceof( MockLocation );
         });
 
-        it('should have a MockHTMLMediaElement', function() {
+        it('should have added functions to HTMLMediaElement', function() {
             var win = MockBrowser.createWindow();
 
-            win.HTMLMediaElement.should.be.instanceof( MockHTMLMediaElement );
+            win.HTMLMediaElement.prototype.play.should.be.a( 'function' );
         });
 
         it('should have a scrollTo', function() {

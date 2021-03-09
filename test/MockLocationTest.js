@@ -1,34 +1,28 @@
 var should = require('chai').should(),
 dash = require('lodash' ),
-MockHTMLMediaElement = require('../lib/MockHTMLMediaElement');
+MockLocation = require('../lib/MockLocation');
 
-describe('MockHTMLMediaElement', function() {
+describe('MockLocation', function() {
 'use strict';
 
     describe('#instance', function() {
-        var mediaElement = new MockHTMLMediaElement(),
+        var location = new MockLocation(),
             methods = [
-                'addTextTrack',
-                'captureStream',
-                'canPlayType',
-                'fastSeek',
-                'load',
-                'pause',
-                'play',
-                'seekToNextFrame',
-                'setMediaKeys',
-                'setSinkId'
+                'reload',
+                'assign',
+                'replace',
+                'toString'
             ];
 
-        it('should create an instance of MockHTMLMediaElement', function() {
-            should.exist( mediaElement );
-            mediaElement.should.be.instanceof( MockHTMLMediaElement );
+        it('should create an instance of MockLocation', function() {
+            should.exist( location );
+            location.should.be.instanceof( MockLocation );
         });
 
         it('should have all known methods by size and type', function() {
-            dash.functionsIn( mediaElement ).length.should.equal( methods.length );
+            dash.functionsIn( location ).length.should.equal( methods.length );
             methods.forEach(function(method) {
-                mediaElement[ method ].should.be.a( 'function' );
+                location[ method ].should.be.a( 'function' );
             });
         });
     });
